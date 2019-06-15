@@ -1,8 +1,9 @@
 import cats.effect.IO
-import fs2.StreamApp
 import fs2.StreamApp.ExitCode
+import cats.effect.{ ExitCode, IOApp }
+import cats.syntax.functor._
 
-object Hello extends StreamApp[IO] {
-  override def stream(args: List[String], requestShutdown: IO[Unit]): fs2.Stream[IO, ExitCode] =
-    fs2.Stream(ExitCode.Success).covary[IO]
+object Hello extends IOApp {
+  override def run(args: List[String] ): IO[ExitCode] =
+    fs2.Stream(ExitCode.Success).covary[IO].compile.drain.as(ExitCode.Success)
 }
