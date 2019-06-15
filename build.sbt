@@ -1,5 +1,5 @@
 name := "scalafix-test"
 
 libraryDependencies := List(
-  "co.fs2" %% "fs2-core" % "0.10.7"
+  "co.fs2" %% "fs2-core" % "1.0.5"
 )
