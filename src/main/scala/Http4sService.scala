@@ -1,3 +1,4 @@
+/*
 import cats.effect.IO
 import org.http4s.HttpService
 import org.http4s.dsl.io._
@@ -7,3 +8,4 @@ object Http4sService {
     case _ @ GET -> Root => Ok().withBody("hello")
   }
 }
+*/
