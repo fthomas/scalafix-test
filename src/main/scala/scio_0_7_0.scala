@@ -1,8 +1,10 @@
 // https://github.com/spotify/scio/blob/master/site/src/paradox/migrations/v0.7.0-Migration-Guide.md#automated-migration
 
-import com.spotify.scio.bigquery.BigQueryClient
+import com.google.protobuf.Message
+import com.spotify.scio._
 import com.spotify.scio.testing.{AvroIO, PipelineSpec}
 import org.apache.avro.generic.GenericRecord
+import scala.reflect.ClassTag
 
 object scio_0_7_0 {
 
@@ -46,12 +48,14 @@ object scio_0_7_0 {
     }
   }
 
-  object RewriteSysProp {
-    sys.props(BigQueryClient.PROJECT_KEY) = "project-key"
-    sys.props(BigQueryClient.CACHE_ENABLED_KEY) = false.toString
-    sys.props(BigQueryClient.PRIORITY_KEY) = "INTERACTIVE"
+  object AddMissingImports {
 
-    val tmp = sys.props("java.io.tmpdir")
-    val username = sys.props("user.name")
+    def computeAndSaveDay[M <: Message: ClassTag](sc: ScioContext): Unit = {
+      sc.protobufFile[M]("input")
+        .saveAsProtobufFile("output")
+
+      sc.close()
+      ()
+    }
   }
 }
