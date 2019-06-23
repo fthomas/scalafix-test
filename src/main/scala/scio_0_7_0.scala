@@ -5,6 +5,8 @@ import com.spotify.scio._
 import com.spotify.scio.testing.{AvroIO, PipelineSpec}
 import org.apache.avro.generic.GenericRecord
 import scala.reflect.ClassTag
+import com.spotify.scio.bigquery.BigQueryClient
+
 
 object scio_0_7_0 {
 
@@ -57,5 +59,14 @@ object scio_0_7_0 {
       sc.close()
       ()
     }
+  }
+
+  object RewriteSysProp {
+    sys.props(BigQueryClient.PROJECT_KEY) = "project-key"
+    sys.props(BigQueryClient.CACHE_ENABLED_KEY) = false.toString
+    sys.props(BigQueryClient.PRIORITY_KEY) = "INTERACTIVE"
+
+    val tmp = sys.props("java.io.tmpdir")
+    val username = sys.props("user.name")
   }
 }
