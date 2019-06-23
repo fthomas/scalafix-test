@@ -1,8 +1,10 @@
 // https://github.com/spotify/scio/blob/master/site/src/paradox/migrations/v0.7.0-Migration-Guide.md#automated-migration
-object scio_0_7_0 {
 
-  import com.spotify.scio.testing.{AvroIO, PipelineSpec}
-  import org.apache.avro.generic.GenericRecord
+import com.spotify.scio.bigquery.BigQueryClient
+import com.spotify.scio.testing.{AvroIO, PipelineSpec}
+import org.apache.avro.generic.GenericRecord
+
+object scio_0_7_0 {
 
   case class InputClass(s: String, i: Int) extends GenericRecord {
     def getSchema(): org.apache.avro.Schema = ???
@@ -42,5 +44,14 @@ object scio_0_7_0 {
         }
         .run()
     }
+  }
+
+  object RewriteSysProp {
+    sys.props(BigQueryClient.PROJECT_KEY) = "project-key"
+    sys.props(BigQueryClient.CACHE_ENABLED_KEY) = false.toString
+    sys.props(BigQueryClient.PRIORITY_KEY) = "INTERACTIVE"
+
+    val tmp = sys.props("java.io.tmpdir")
+    val username = sys.props("user.name")
   }
 }
