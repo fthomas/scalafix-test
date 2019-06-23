@@ -2,10 +2,12 @@
 
 import com.google.protobuf.Message
 import com.spotify.scio._
-import com.spotify.scio.testing.{AvroIO, PipelineSpec}
+import com.spotify.scio.testing.PipelineSpec
 import org.apache.avro.generic.GenericRecord
 import scala.reflect.ClassTag
-import com.spotify.scio.bigquery.BigQueryClient
+import com.spotify.scio.avro._
+import com.spotify.scio.CoreSysProps
+import com.spotify.scio.bigquery.BigQuerySysProps
 
 
 object scio_0_7_0 {
@@ -38,9 +40,9 @@ object scio_0_7_0 {
 
     "TestJob" should "run" in {
       JobTest[TestJob.type]
-        .input(AvroIO("current"), inputs)
-        .input(AvroIO("reference"), inputs2.values)
-        .input(AvroIO("reference2"), inputs3)
+        .input(AvroIO[InputClass]("current"), inputs)
+        .input(AvroIO[GenericRecord]("reference"), inputs2.values)
+        .input(AvroIO[InputClass]("reference2"), inputs3)
         .input(AvroIO[InputClass]("donttouch"), inputs)
         .output[OutputClass](AvroIO("foo")) { coll =>
           coll should containInAnyOrder(expected)
@@ -62,11 +64,11 @@ object scio_0_7_0 {
   }
 
   object RewriteSysProp {
-    sys.props(BigQueryClient.PROJECT_KEY) = "project-key"
-    sys.props(BigQueryClient.CACHE_ENABLED_KEY) = false.toString
-    sys.props(BigQueryClient.PRIORITY_KEY) = "INTERACTIVE"
+    BigQuerySysProps.Project.value = "project-key"
+    BigQuerySysProps.CacheEnabled.value = false.toString
+    BigQuerySysProps.Priority.value = "INTERACTIVE"
 
-    val tmp = sys.props("java.io.tmpdir")
-    val username = sys.props("user.name")
+    val tmp = CoreSysProps.TmpDir.value
+    val username = CoreSysProps.User.value
   }
 }
