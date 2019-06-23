@@ -1,4 +1,4 @@
 # scalafix-test
 
-Test ground for scala-steward's scalafix integration.
-
+Test ground for [Scala Steward's](https://github.com/fthomas/scala-steward)
+[Scalafix](https://scalacenter.github.io/scalafix/) integration.
