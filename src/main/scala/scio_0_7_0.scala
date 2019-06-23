@@ -1,3 +1,4 @@
+import com.spotify.scio.testing.{AvroIO, JobTest, PipelineSpec, TextIO}
 import com.spotify.scio.values.SCollection
 import org.apache.avro.generic.GenericRecord
 import scala.reflect.ClassTag
@@ -26,5 +27,23 @@ object scio_0_7_0 {
       val result: T = ???
       result
     }
+
+  class MyScioJobTest extends PipelineSpec {
+
+    "MyScioJob" should "work" in {
+      JobTest[MyScioJob.type]
+        .args(s"--inputAUri=${inputAUri}")
+        .args(s"--inputBUri=${inputBUri}")
+        .input(AvroIO[GenericRecord](inputAUri), Seq(Schemas.record1))
+        .input(AvroIO[GenericRecord](inputBUri), Seq(Schemas.record2))
+        .output(TextIO(output)) { coll =>
+          coll should haveSize(1)
+          ()
+        }
+        .run()
+    }
+
+    // more tests
+  }
 
 }
