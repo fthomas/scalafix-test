@@ -1,49 +1,46 @@
-import com.spotify.scio.testing.{AvroIO, JobTest, PipelineSpec, TextIO}
-import com.spotify.scio.values.SCollection
-import org.apache.avro.generic.GenericRecord
-import scala.reflect.ClassTag
-
 // https://github.com/spotify/scio/blob/master/site/src/paradox/migrations/v0.7.0-Migration-Guide.md#automated-migration
 object scio_0_7_0 {
 
-  object MyScioJob {}
+  import com.spotify.scio.testing.{AvroIO, PipelineSpec}
+  import org.apache.avro.generic.GenericRecord
 
-  val inputAUri = ""
-  val inputBUri = ""
-  val output = "output"
-
-  object Schemas {
-    def record1: GenericRecord = ???
-
-    def record2: GenericRecord = ???
+  case class InputClass(s: String, i: Int) extends GenericRecord {
+    def getSchema(): org.apache.avro.Schema = ???
+    def get(x$1: String): Object = ???
+    def put(x$1: String, x$2: Any): Unit = ???
+    def get(x$1: Int): Object = ???
+    def put(x$1: Int, x$2: Any): Unit = ???
   }
 
-  implicit def bo: com.spotify.scio.testing.JobTest.BeamOptions =
-    ??? // XXX: why do I need this ?
+  case class OutputClass(result: String) extends GenericRecord {
+    def getSchema(): org.apache.avro.Schema = ???
+    def get(x$1: String): Object = ???
+    def put(x$1: String, x$2: Any): Unit = ???
+    def get(x$1: Int): Object = ???
+    def put(x$1: Int, x$2: Any): Unit = ???
+  }
 
-  def doSomething[T: ClassTag](coll: SCollection[T]): SCollection[T] =
-    coll.map { t =>
-      // do something that returns a T
-      val result: T = ???
-      result
+  object TestJob
+
+  class ValidationJobTest extends PipelineSpec {
+    val inputs: List[InputClass] = (1 to 10).toList.map { i =>
+      InputClass(s"s$i", i)
     }
+    val inputs2 = (1 to 10).zip(inputs).toMap
+    val inputs3 = inputs2.values
+    val expected = List(OutputClass("result"))
 
-  class MyScioJobTest extends PipelineSpec {
-
-    "MyScioJob" should "work" in {
-      JobTest[MyScioJob.type]
-        .args(s"--inputAUri=${inputAUri}")
-        .args(s"--inputBUri=${inputBUri}")
-        .input(AvroIO[GenericRecord](inputAUri), Seq(Schemas.record1))
-        .input(AvroIO[GenericRecord](inputBUri), Seq(Schemas.record2))
-        .output(TextIO(output)) { coll =>
-          coll should haveSize(1)
+    "TestJob" should "run" in {
+      JobTest[TestJob.type]
+        .input(AvroIO("current"), inputs)
+        .input(AvroIO("reference"), inputs2.values)
+        .input(AvroIO("reference2"), inputs3)
+        .input(AvroIO[InputClass]("donttouch"), inputs)
+        .output[OutputClass](AvroIO("foo")) { coll =>
+          coll should containInAnyOrder(expected)
           ()
         }
         .run()
     }
-
-    // more tests
   }
-
 }
