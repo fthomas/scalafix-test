@@ -6,8 +6,8 @@ libraryDependencies := List(
   //"org.http4s" %% "http4s-dsl" % "0.18.24",
   //"org.typelevel" %% "cats-core" % "0.9.0",
 
-  "com.spotify" %% "scio-avro" % "0.6.1",
-  "com.spotify" %% "scio-core" % "0.6.1",
-  "com.spotify" %% "scio-test" % "0.6.1",
-  "com.spotify" %% "scio-bigquery" % "0.6.1"
+  "com.spotify" %% "scio-avro" % "0.8.1",
+  "com.spotify" %% "scio-core" % "0.8.1",
+  "com.spotify" %% "scio-test" % "0.8.1",
+  "com.spotify" %% "scio-bigquery" % "0.8.1"
 )
