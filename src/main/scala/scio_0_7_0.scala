@@ -1,5 +1,5 @@
 // https://github.com/spotify/scio/blob/master/site/src/paradox/migrations/v0.7.0-Migration-Guide.md#automated-migration
-
+/*
 import com.google.protobuf.Message
 import com.spotify.scio._
 import com.spotify.scio.testing.{AvroIO, PipelineSpec}
@@ -70,3 +70,4 @@ object scio_0_7_0 {
     val username = sys.props("user.name")
   }
 }
+*/
