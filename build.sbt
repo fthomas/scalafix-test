@@ -9,5 +9,7 @@ libraryDependencies := List(
   "com.spotify" %% "scio-avro" % "0.6.1",
   "com.spotify" %% "scio-core" % "0.6.1",
   "com.spotify" %% "scio-test" % "0.6.1",
-  "com.spotify" %% "scio-bigquery" % "0.6.1"
+  "com.spotify" %% "scio-bigquery" % "0.6.1",
+
+  "org.scalatest" %% "scalatest" % "3.1.0"
 )
