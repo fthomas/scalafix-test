@@ -2,10 +2,11 @@
 
 import com.google.protobuf.Message
 import com.spotify.scio._
-import com.spotify.scio.testing.{AvroIO, PipelineSpec}
+import com.spotify.scio.testing.PipelineSpec
 import org.apache.avro.generic.GenericRecord
 import scala.reflect.ClassTag
 import com.spotify.scio.bigquery.BigQueryClient
+import com.spotify.scio.avro._
 
 
 object scio_0_7_0 {
@@ -38,9 +39,9 @@ object scio_0_7_0 {
 
     "TestJob" should "run" in {
       JobTest[TestJob.type]
-        .input(AvroIO("current"), inputs)
-        .input(AvroIO("reference"), inputs2.values)
-        .input(AvroIO("reference2"), inputs3)
+        .input(AvroIO[InputClass]("current"), inputs)
+        .input(AvroIO[GenericRecord]("reference"), inputs2.values)
+        .input(AvroIO[InputClass]("reference2"), inputs3)
         .input(AvroIO[InputClass]("donttouch"), inputs)
         .output[OutputClass](AvroIO("foo")) { coll =>
           coll should containInAnyOrder(expected)
