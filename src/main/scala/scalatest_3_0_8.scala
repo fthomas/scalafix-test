@@ -1,5 +1,6 @@
-import org.scalatest.FunSuite
 
-class scalatest_3_0_8 extends FunSuite {
+import org.scalatest.funsuite.AnyFunSuite
+
+class scalatest_3_0_8 extends AnyFunSuite {
 
 }
