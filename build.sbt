@@ -13,4 +13,4 @@ libraryDependencies := List(
   "org.scalatest" %% "scalatest" % "3.1.1"
 )
 
-scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.2.0"
+scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.2.4"
