@@ -10,7 +10,7 @@ libraryDependencies := List(
   //"com.spotify" %% "scio-test" % "0.6.1",
   //"com.spotify" %% "scio-bigquery" % "0.6.1",
 
-  "org.scalatest" %% "scalatest" % "3.2.1"
+  "org.scalatest" %% "scalatest" % "3.2.2"
 )
 
 scalafixDependencies += "com.nequissimus" %% "sort-imports" % "0.5.4"
