@@ -7,4 +7,4 @@ object Hello extends StreamApp[IO] {
   override def stream(args: List[String], requestShutdown: IO[Unit]): fs2.Stream[IO, ExitCode] =
     fs2.Stream(ExitCode.Success).covary[IO]
 }
-*/
+ */
