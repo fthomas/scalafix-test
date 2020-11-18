@@ -8,4 +8,4 @@ object Http4sService {
     case _ @ GET -> Root => Ok().withBody("hello")
   }
 }
-*/
+ */
