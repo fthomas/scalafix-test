@@ -1,4 +1,4 @@
-import cats.syntax.all._
+import cats.implicits._
 
 class 
 cats_2_0_0_RC4  
